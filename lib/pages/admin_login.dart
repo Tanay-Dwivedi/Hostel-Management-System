@@ -19,6 +19,9 @@ class _adminloginState extends State<adminlogin> {
   double _headerHeight = 250;
   Key _formKey = GlobalKey<FormState>();
 
+  late String email;
+  late String password;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,6 +56,7 @@ class _adminloginState extends State<adminlogin> {
                             children: [
                               Container(
                                 child: TextField(
+                                  onChanged: (value) {},
                                   decoration: ThemeHelper().textInputDecoration(
                                       'User Name', 'Enter your user name'),
                                 ),
@@ -63,6 +67,7 @@ class _adminloginState extends State<adminlogin> {
                               Container(
                                 child: TextField(
                                   obscureText: true,
+                                  onChanged: (value) {},
                                   decoration: ThemeHelper().textInputDecoration(
                                       'Password', 'Enter your password'),
                                 ),
@@ -108,12 +113,6 @@ class _adminloginState extends State<adminlogin> {
                                 children: [
                                   socialmedia_button(
                                     image: 'images/google_logo.png',
-                                    onPressed: () {
-                                      //route
-                                    },
-                                  ),
-                                  socialmedia_button(
-                                    image: 'images/facebook.png',
                                     onPressed: () {
                                       //route
                                     },

@@ -19,6 +19,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final _formKey = GlobalKey<FormState>();
   bool checkedValue = false;
   bool checkboxValue = false;
+  String? _name;
+  String? _registrationNo;
+  String? _email;
+  String? _mobileNo;
+  String? _password;
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +86,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         ),
                         Container(
                           child: TextFormField(
+                            onChanged: (value) {
+                              _name = value;
+                            },
                             decoration: ThemeHelper().textInputDecoration(
                                 'Full Name', 'Enter your full name'),
                           ),
@@ -91,6 +99,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         ),
                         Container(
                           child: TextFormField(
+                            onChanged: ((value) {
+                              _registrationNo = value;
+                            }),
                             decoration: ThemeHelper().textInputDecoration(
                                 'Registration No.', 'Enter your reg. no.'),
                           ),
@@ -99,6 +110,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         SizedBox(height: 20.0),
                         Container(
                           child: TextFormField(
+                            onChanged: ((value) {
+                              _email = value;
+                            }),
                             decoration: ThemeHelper().textInputDecoration(
                                 "E-mail address", "Enter your email"),
                             keyboardType: TextInputType.emailAddress,
@@ -116,6 +130,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         SizedBox(height: 20.0),
                         Container(
                           child: TextFormField(
+                            onChanged: ((value) {
+                              _mobileNo = value;
+                            }),
                             decoration: ThemeHelper().textInputDecoration(
                                 "Mobile Number", "Enter your mobile number"),
                             keyboardType: TextInputType.phone,
@@ -132,6 +149,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         SizedBox(height: 20.0),
                         Container(
                           child: TextFormField(
+                            onChanged: ((value) {
+                              _password = value;
+                            }),
                             obscureText: true,
                             decoration: ThemeHelper().textInputDecoration(
                                 "Password*", "Enter your password"),

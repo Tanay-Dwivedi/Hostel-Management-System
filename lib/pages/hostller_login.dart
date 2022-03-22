@@ -113,12 +113,6 @@ class _hostllerloginState extends State<hostllerlogin> {
                                     },
                                   ),
                                   socialmedia_button(
-                                    image: 'images/facebook.png',
-                                    onPressed: () {
-                                      //route
-                                    },
-                                  ),
-                                  socialmedia_button(
                                     image: 'images/twitter.png',
                                     onPressed: () {
                                       //route
