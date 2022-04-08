@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:myhostelapp/commom/google_sign_in.dart';
+import 'package:myhostelapp/commom/twitter_sign_in.dart';
+import 'package:provider/provider.dart';
+import '../commom/Socialmedia_button.dart';
+import 'package:twitter_login/twitter_login.dart';
 
 import 'package:hexcolor/hexcolor.dart';
 
@@ -242,81 +247,23 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         ),
                         SizedBox(height: 25.0),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            GestureDetector(
-                              child: FaIcon(
-                                FontAwesomeIcons.google,
-                                size: 35,
-                                color: HexColor("#EC2D2F"),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return ThemeHelper().alartDialog(
-                                          "Gmail",
-                                          "You tap on Gmail social icon.",
-                                          context);
-                                    },
-                                  );
-                                });
+                            socialmedia_button(
+                              title: "Google",
+                              image: 'images/google_logo.png',
+                              onPressed: () {
+                                final provider =
+                                    Provider.of<GoogleSignInProvider>(context,
+                                        listen: false);
+                                provider.googleLogin();
                               },
                             ),
-                            SizedBox(
-                              width: 30.0,
-                            ),
-                            GestureDetector(
-                              child: Container(
-                                padding: EdgeInsets.all(0),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(100),
-                                  border: Border.all(
-                                      width: 5, color: HexColor("#40ABF0")),
-                                  color: HexColor("#40ABF0"),
-                                ),
-                                child: FaIcon(
-                                  FontAwesomeIcons.facebook,
-                                  size: 25,
-                                  color: HexColor("#FFFFFF"),
-                                ),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return ThemeHelper().alartDialog(
-                                          "Facebook",
-                                          "You tap on Facebook social icon.",
-                                          context);
-                                    },
-                                  );
-                                });
-                              },
-                            ),
-                            SizedBox(
-                              width: 30.0,
-                            ),
-                            GestureDetector(
-                              child: FaIcon(
-                                FontAwesomeIcons.github,
-                                size: 35,
-                                color: HexColor("#3E529C"),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return ThemeHelper().alartDialog(
-                                          "Github",
-                                          "You tap on Github social icon.",
-                                          context);
-                                    },
-                                  );
-                                });
+                            socialmedia_button(
+                              title: "Google",
+                              image: 'images/twitter.png',
+                              onPressed: () {
+                                twitter_login();
                               },
                             ),
                           ],

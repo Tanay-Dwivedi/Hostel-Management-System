@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:myhostelapp/commom/google_sign_in.dart';
+import 'package:myhostelapp/commom/twitter_sign_in.dart';
 import 'package:myhostelapp/pages/widget/header_widget.dart';
 import 'package:myhostelapp/commom/theme_helper.dart';
 import 'package:myhostelapp/pages/forgot_password_page.dart';
 import 'package:myhostelapp/pages/profile_page.dart';
 import 'package:myhostelapp/pages/registration_page.dart';
+import 'package:provider/provider.dart';
 import '../commom/Socialmedia_button.dart';
 
 class adminlogin extends StatefulWidget {
@@ -112,21 +115,21 @@ class _adminloginState extends State<adminlogin> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   socialmedia_button(
+                                    title: "Google",
                                     image: 'images/google_logo.png',
                                     onPressed: () {
-                                      //route
+                                      final provider =
+                                          Provider.of<GoogleSignInProvider>(
+                                              context,
+                                              listen: false);
+                                      provider.googleLogin();
                                     },
                                   ),
                                   socialmedia_button(
+                                    title: "Twitter",
                                     image: 'images/twitter.png',
                                     onPressed: () {
-                                      //route
-                                    },
-                                  ),
-                                  socialmedia_button(
-                                    image: 'images/github.png',
-                                    onPressed: () {
-                                      //route
+                                      twitter_login();
                                     },
                                   ),
                                 ],
