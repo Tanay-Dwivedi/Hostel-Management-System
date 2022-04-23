@@ -1,8 +1,13 @@
+import 'dart:math';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:myhostelapp/commom/google_sign_in.dart';
 import 'package:myhostelapp/commom/twitter_sign_in.dart';
+import 'package:myhostelapp/pages/admin_profile_page.dart';
+
 import 'package:myhostelapp/pages/widget/header_widget.dart';
 import 'package:myhostelapp/commom/theme_helper.dart';
 import 'package:myhostelapp/pages/forgot_password_page.dart';
@@ -21,7 +26,7 @@ class adminlogin extends StatefulWidget {
 class _adminloginState extends State<adminlogin> {
   double _headerHeight = 250;
   Key _formKey = GlobalKey<FormState>();
-
+  final _auth = FirebaseAuth.instance;
   late String email;
   late String password;
 
@@ -59,9 +64,11 @@ class _adminloginState extends State<adminlogin> {
                             children: [
                               Container(
                                 child: TextField(
-                                  onChanged: (value) {},
+                                  onChanged: (value) {
+                                    email = value;
+                                  },
                                   decoration: ThemeHelper().textInputDecoration(
-                                      'User Name', 'Enter your user name'),
+                                      'Email ID', 'Enter your Email ID'),
                                 ),
                                 decoration:
                                     ThemeHelper().inputBoxDecorationShaddow(),
@@ -70,7 +77,9 @@ class _adminloginState extends State<adminlogin> {
                               Container(
                                 child: TextField(
                                   obscureText: true,
-                                  onChanged: (value) {},
+                                  onChanged: (value) {
+                                    password = value;
+                                  },
                                   decoration: ThemeHelper().textInputDecoration(
                                       'Password', 'Enter your password'),
                                 ),
@@ -123,6 +132,11 @@ class _adminloginState extends State<adminlogin> {
                                               context,
                                               listen: false);
                                       provider.googleLogin();
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AdminProfilePage()));
                                     },
                                   ),
                                   socialmedia_button(
@@ -130,6 +144,11 @@ class _adminloginState extends State<adminlogin> {
                                     image: 'images/twitter.png',
                                     onPressed: () {
                                       twitter_login();
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AdminProfilePage()));
                                     },
                                   ),
                                 ],
@@ -152,13 +171,23 @@ class _adminloginState extends State<adminlogin> {
                                       ),
                                     ),
                                   ),
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    try {
+                                      final newUser = await _auth
+                                          .signInWithEmailAndPassword(
+                                              email: email, password: password);
+                                      if (newUser != null) {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AdminProfilePage()));
+                                      }
+                                    } catch (e) {
+                                      print(e);
+                                    }
+
                                     //After successful login we will be redirect to profile page.
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ProfilePage()));
                                   },
                                 ),
                               ),

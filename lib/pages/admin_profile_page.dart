@@ -11,14 +11,14 @@ import 'registration_page.dart';
 import 'splash_screen.dart';
 import 'widget/header_widget.dart';
 
-class ProfilePage extends StatefulWidget {
+class AdminProfilePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _ProfilePageState();
+    return _AdminProfilePageState();
   }
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _AdminProfilePageState extends State<AdminProfilePage> {
   double _drawerIconSize = 24;
   double _drawerFontSize = 17;
 
@@ -195,8 +195,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => RulePage()),
+                    MaterialPageRoute(builder: (context) => RulePage()),
                   );
                 },
               ),
@@ -261,14 +260,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: 20,
                   ),
                   Text(
-                    'Priyansh Rastogi',
+                    'Hostel Warden',
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     height: 20,
                   ),
                   Text(
-                    '20BCE10410',
+                    '1250058',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -308,7 +307,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               horizontal: 14, vertical: 4),
                                           leading: Icon(Icons.my_location),
                                           title: Text("Room"),
-                                          subtitle: Text("658A"),
+                                          subtitle: Text("G-17"),
                                         ),
                                         ListTile(
                                           contentPadding: EdgeInsets.symmetric(
@@ -316,17 +315,17 @@ class _ProfilePageState extends State<ProfilePage> {
                                           leading: Icon(Icons.email),
                                           title: Text("Email"),
                                           subtitle: Text(
-                                              "priyanshrastogi2174@gmail.com"),
+                                              "hostelwarden@vitbhopal.ac.in"),
                                         ),
                                         ListTile(
                                           leading: Icon(Icons.phone),
                                           title: Text("Phone"),
-                                          subtitle: Text("7007939611"),
+                                          subtitle: Text("1111111111"),
                                         ),
                                         ListTile(
                                           leading: Icon(Icons.person),
-                                          title: Text("Branch"),
-                                          subtitle: Text("B.Tech CSE Core "),
+                                          title: Text("Block Assigned"),
+                                          subtitle: Text("Block A"),
                                         ),
                                       ],
                                     ),

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,9 @@ class hostllerlogin extends StatefulWidget {
 class _hostllerloginState extends State<hostllerlogin> {
   double _headerHeight = 250;
   Key _formKey = GlobalKey<FormState>();
+  final _auth = FirebaseAuth.instance;
+  late String email;
+  late String password;
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +60,11 @@ class _hostllerloginState extends State<hostllerlogin> {
                         children: [
                           Container(
                             child: TextField(
+                              onChanged: (value) {
+                                email = value;
+                              },
                               decoration: ThemeHelper().textInputDecoration(
-                                  'User Name', 'Enter your user name'),
+                                  'Email ID', 'Enter your Email ID'),
                             ),
                             decoration:
                                 ThemeHelper().inputBoxDecorationShaddow(),
@@ -66,6 +73,9 @@ class _hostllerloginState extends State<hostllerlogin> {
                           Container(
                             child: TextField(
                               obscureText: true,
+                              onChanged: (value) {
+                                password = value;
+                              },
                               decoration: ThemeHelper().textInputDecoration(
                                   'Password', 'Enter your password'),
                             ),
@@ -116,6 +126,10 @@ class _hostllerloginState extends State<hostllerlogin> {
                                       Provider.of<GoogleSignInProvider>(context,
                                           listen: false);
                                   provider.googleLogin();
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ProfilePage()));
                                 },
                               ),
                               socialmedia_button(
@@ -123,6 +137,10 @@ class _hostllerloginState extends State<hostllerlogin> {
                                 image: 'images/twitter.png',
                                 onPressed: () {
                                   twitter_login();
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ProfilePage()));
                                 },
                               ),
                             ],
@@ -143,12 +161,21 @@ class _hostllerloginState extends State<hostllerlogin> {
                                       color: Colors.white),
                                 ),
                               ),
-                              onPressed: () {
-                                //After successful login we will be redirect to profile page.
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ProfilePage()));
+                              onPressed: () async {
+                                try {
+                                  final newUser =
+                                      await _auth.signInWithEmailAndPassword(
+                                          email: email, password: password);
+                                  if (newUser != null) {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ProfilePage()));
+                                  }
+                                } catch (e) {
+                                  print(e);
+                                }
                               },
                             ),
                           ),

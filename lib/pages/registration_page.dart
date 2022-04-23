@@ -1,17 +1,14 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myhostelapp/commom/google_sign_in.dart';
 import 'package:myhostelapp/commom/twitter_sign_in.dart';
 import 'package:provider/provider.dart';
-import '../commom/Socialmedia_button.dart';
 import 'package:twitter_login/twitter_login.dart';
-
 import 'package:hexcolor/hexcolor.dart';
-
 import '../commom/theme_helper.dart';
 import 'profile_page.dart';
 import 'widget/header_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationPage extends StatefulWidget {
   @override
@@ -21,14 +18,33 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
+  final _firestore = FirebaseFirestore.instance;
   final _formKey = GlobalKey<FormState>();
   bool checkedValue = false;
   bool checkboxValue = false;
-  String? _name;
-  String? _registrationNo;
-  String? _email;
-  String? _mobileNo;
-  String? _password;
+  final _auth = FirebaseAuth.instance;
+
+  late String name;
+  late String email;
+  late String registrationNo;
+  late String mobileNo;
+  late String password;
+
+  Future emailId_auth() async {
+    try {
+      final newUser = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      if (newUser != null) {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => ProfilePage(),
+            ),
+            (Route<dynamic> route) => false);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +108,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         Container(
                           child: TextFormField(
                             onChanged: (value) {
-                              _name = value;
+                              name = value;
                             },
                             decoration: ThemeHelper().textInputDecoration(
                                 'Full Name', 'Enter your full name'),
@@ -105,7 +121,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         Container(
                           child: TextFormField(
                             onChanged: ((value) {
-                              _registrationNo = value;
+                              registrationNo = value;
                             }),
                             decoration: ThemeHelper().textInputDecoration(
                                 'Registration No.', 'Enter your reg. no.'),
@@ -115,9 +131,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         SizedBox(height: 20.0),
                         Container(
                           child: TextFormField(
-                            onChanged: ((value) {
-                              _email = value;
-                            }),
+                            onChanged: (value) {
+                              email = value;
+                            },
                             decoration: ThemeHelper().textInputDecoration(
                                 "E-mail address", "Enter your email"),
                             keyboardType: TextInputType.emailAddress,
@@ -136,7 +152,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         Container(
                           child: TextFormField(
                             onChanged: ((value) {
-                              _mobileNo = value;
+                              mobileNo = value;
                             }),
                             decoration: ThemeHelper().textInputDecoration(
                                 "Mobile Number", "Enter your mobile number"),
@@ -155,7 +171,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         Container(
                           child: TextFormField(
                             onChanged: ((value) {
-                              _password = value;
+                              password = value;
                             }),
                             obscureText: true,
                             decoration: ThemeHelper().textInputDecoration(
@@ -230,43 +246,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 ),
                               ),
                             ),
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                        builder: (context) => ProfilePage()),
-                                    (Route<dynamic> route) => false);
-                              }
-                            },
+                            onPressed: () => [
+                              emailId_auth(),
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ProfilePage())),
+                              _firestore.collection('user').add(
+                                {
+                                  'email': email,
+                                  'mobileNo': mobileNo,
+                                  'name': name,
+                                  'registrationNo': registrationNo,
+                                },
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(height: 30.0),
-                        Text(
-                          "Or create account using social media",
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        SizedBox(height: 25.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            socialmedia_button(
-                              title: "Google",
-                              image: 'images/google_logo.png',
-                              onPressed: () {
-                                final provider =
-                                    Provider.of<GoogleSignInProvider>(context,
-                                        listen: false);
-                                provider.googleLogin();
-                              },
-                            ),
-                            socialmedia_button(
-                              title: "Google",
-                              image: 'images/twitter.png',
-                              onPressed: () {
-                                twitter_login();
-                              },
-                            ),
-                          ],
                         ),
                       ],
                     ),
